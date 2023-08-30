@@ -17,6 +17,8 @@ namespace webapi.filmes.tarde.Repositories
         private string StringConexao = "Data Source = NOTE06-S14; Initial Catalog = Filmes; User Id = sa; Pwd = Senai@134";
         //private string StringConexao = "Data Source = NOTE06-S14; Initial Catalog = Filmes; User Id = sa; Pwd = Senai@134";
 
+        //===========================================================================================================================
+
         /// <summary>
         /// Atualizar o gênero passando o seu id pelo corpo da requisição
         /// </summary>
@@ -40,6 +42,8 @@ namespace webapi.filmes.tarde.Repositories
             }
         }
 
+        //===========================================================================================================================
+
         public void AtualizarIdUrl(int id, GeneroDomain genero)
         {
             using (SqlConnection con = new SqlConnection(StringConexao))
@@ -60,6 +64,7 @@ namespace webapi.filmes.tarde.Repositories
             }
         }
 
+        //===========================================================================================================================
 
         /// <summary>
         /// Buscar um gênero atravvés do seu id
@@ -97,6 +102,8 @@ namespace webapi.filmes.tarde.Repositories
             }
         }
 
+        //===========================================================================================================================
+
         /// <summary>
         /// Cadastrar um novo gênero
         /// </summary>
@@ -124,6 +131,8 @@ namespace webapi.filmes.tarde.Repositories
             }
         }
 
+        //===========================================================================================================================
+
         /// <summary>
         /// Deletar o objeto selecionado do tipo gênero
         /// </summary>
@@ -150,6 +159,8 @@ namespace webapi.filmes.tarde.Repositories
                 }
             }
         }
+
+        //===========================================================================================================================
 
         /// <summary>
         /// Listar todos os objetos do tipo gênero
@@ -181,7 +192,7 @@ namespace webapi.filmes.tarde.Repositories
                     //Enquanto houver registros para serem lidos no rdr o laço se repetirá
                     while (rdr.Read())
                     {
-                        GeneroDomain genro = new GeneroDomain()
+                        GeneroDomain genero = new GeneroDomain()
                         {
                             //Atribui a propriedade IdGenero o valor da primeira coluna da tabela
                             IdGenero = Convert.ToInt32(rdr[0]),
@@ -191,7 +202,7 @@ namespace webapi.filmes.tarde.Repositories
                         };
 
                         //Adiciona o objeto criado dentro da lista
-                        ListaGeneros.Add(genro);
+                        ListaGeneros.Add(genero);
                     }
                 }
             }

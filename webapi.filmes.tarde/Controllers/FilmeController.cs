@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using webapi.filmes.tarde.Domains;
 using webapi.filmes.tarde.Interfaces;
 using webapi.filmes.tarde.Repositories;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace webapi.filmes.tarde.Controllers
 {
@@ -24,40 +23,39 @@ namespace webapi.filmes.tarde.Controllers
     /// </summary>
     [Produces("application/json")]
 
-    
-    public class GeneroController : ControllerBase
+    public class FilmeController : ControllerBase
     {
         /// <summary>
         /// Objeto que irá receber os métodos definidos na interface
         /// </summary>
-        private IGeneroRepository _generoRepository { get; set; }
+        private IFilmeRepository _filmeRepository { get; set; }
 
 
         /// <summary>
-        /// Instância do objeto _generoRepository para que haja referência aos mêtodos no repositório
+        /// Instância do objeto _filmeRepository para que haja referência aos mêtodos no repositório
         /// </summary>
-        public GeneroController()
+        public FilmeController()
         {
-            _generoRepository= new GeneroRepository();
+            _filmeRepository = new FilmeRepository();
         }
 
         //===========================================================================================================================
 
         /// <summary>
-        /// Endpoint que acessa o método de listar os gêneros
+        /// Endpoint que acessa o método de listar os filme
         /// </summary>
-        /// <returns>Lista de gêneros e um status code</returns>
+        /// <returns>Lista de filmes e um status code</returns>
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                //Cria uma lista para receber os gêneros
-                List<GeneroDomain> ListaGeneros = _generoRepository.ListarTodos();
+                //Cria uma lista para receber os filmes
+                List<FilmeDomain> ListaFilmes = _filmeRepository.ListarTodos();
 
-                //retorna o status code 200 ok e a lista de gêneros no formato JSON
-                return StatusCode(200, ListaGeneros);
-                //return Ok(ListaGeneros);
+                //retorna o status code 200 ok e a lista de filmes no formato JSON
+                return StatusCode(200, ListaFilmes);
+                //return Ok(ListaFilmes);
             }
             catch (Exception erro)
             {
@@ -69,20 +67,20 @@ namespace webapi.filmes.tarde.Controllers
         //===========================================================================================================================
 
         /// <summary>
-        /// Endpoint que acessa o método de cadastrar gênero
+        /// Endpoint que acessa o método de cadastrar filme
         /// </summary>
-        /// <param name="novoGenero">Objeto recebido na requisição</param>
+        /// <param name="novoFilme">Objeto recebido na requisição</param>
         /// <returns>Status Code</returns>
         [HttpPost]
-        public IActionResult Post(GeneroDomain novoGenero)
+        public IActionResult Post(FilmeDomain novoFilme)
         {
             try
             {
-                //Cria uma lista para receber os gêneros
-                _generoRepository.Cadastrar(novoGenero);
+                //Cria uma lista para receber os filmes
+                _filmeRepository.Cadastrar(novoFilme);
 
                 //retorna o status code
-                //return Created("objeto criado", novoGenero);
+                //return Created("objeto criado", novoFilme);
                 return StatusCode(201);
             }
             catch (Exception erro)
@@ -99,11 +97,11 @@ namespace webapi.filmes.tarde.Controllers
         {
             try
             {
-                //Cria uma lista para receber os gêneros
-                _generoRepository.Deletar(id);
+                //Cria uma lista para receber os filmes
+                _filmeRepository.Deletar(id);
 
                 //retorna o status code
-                //return Created("objeto criado", novoGenero);
+                //return Created("objeto criado", novoFilme);
                 return StatusCode(204);
             }
             catch (Exception erro)
@@ -120,14 +118,14 @@ namespace webapi.filmes.tarde.Controllers
         {
             try
             {
-                GeneroDomain generoBuscado = _generoRepository.BuscarPorId(id);
+                FilmeDomain filmeBuscado = _filmeRepository.BuscarPorId(id);
 
-                if (generoBuscado == null)
+                if (filmeBuscado == null)
                 {
-                    return NotFound("O Gênero buscado não foi encontrado !");
+                    return NotFound("O Filme buscado não foi encontrado !");
                 }
 
-                return Ok(generoBuscado);
+                return Ok(filmeBuscado);
             }
             catch (Exception erro)
             {
@@ -138,26 +136,26 @@ namespace webapi.filmes.tarde.Controllers
         //===========================================================================================================================
 
         /// <summary>
-        /// Atualizar gênero existente passando o seu id pelo corpo da requisição
+        /// Atualizar filme existente passando o seu id pelo corpo da requisição
         /// </summary>
-        /// <param name="genero">Objeto genero com as novas informações</param>
+        /// <param name="filme">Objeto filme com as novas informações</param>
         /// <returns>Um status code</returns>
         [HttpPut]
-        public IActionResult PutIdCorpo(GeneroDomain genero)
+        public IActionResult PutIdCorpo(FilmeDomain filme)
         {
             try
             {
-                //Cria um objeto generoBuscado que irá receber o gênero buscado no banco de dados
-                GeneroDomain generoBuscado = _generoRepository.BuscarPorId(genero.IdGenero);
+                //Cria um objeto filmeBuscado que irá receber o filme buscado no banco de dados
+                FilmeDomain filmeBuscado = _filmeRepository.BuscarPorId(filme.IdFilme);
 
-                //Verifica se algum gênero foi encontrado
-                if (generoBuscado != null)
+                //Verifica se algum filme foi encontrado
+                if (filmeBuscado != null)
                 {
                     //Tenta atualizar o registro
                     try
                     {
                         //Faz a chamada para o método 
-                        _generoRepository.AtualizarIdCorpo(genero);
+                        _filmeRepository.AtualizarIdCorpo(filme);
 
                         return NoContent();
                     }
@@ -167,8 +165,8 @@ namespace webapi.filmes.tarde.Controllers
                         return BadRequest(erro.Message);
                     }
                 }
-                return NotFound("Gênero não encontrado!");
-           
+                return NotFound("Filme não encontrado!");
+
             }
             catch (Exception erro)
             {
@@ -180,18 +178,18 @@ namespace webapi.filmes.tarde.Controllers
         //===========================================================================================================================
 
         [HttpPut("{id}")]
-        public IActionResult PutIdUrl(int id, GeneroDomain UrlGenero)
+        public IActionResult PutIdUrl(int id, FilmeDomain UrlFilme)
         {
             try
             {
-                //Cria um objeto generoBuscado que irá receber o gênero buscado no banco de dados
-                GeneroDomain generoBuscado = _generoRepository.BuscarPorId(id);
+                //Cria um objeto filmeBuscado que irá receber o filme buscado no banco de dados
+                FilmeDomain filmeBuscado = _filmeRepository.BuscarPorId(id);
 
-                if (generoBuscado != null)
+                if (filmeBuscado != null)
                 {
                     try
                     {
-                        _generoRepository.AtualizarIdUrl(id, UrlGenero);
+                        _filmeRepository.AtualizarIdUrl(id, UrlFilme);
 
                         return NoContent();
                     }
@@ -201,12 +199,13 @@ namespace webapi.filmes.tarde.Controllers
                         return BadRequest(erro.Message);
                     }
                 }
-                return NotFound("Gênero não encongtrado!");
+                return NotFound("Filme não encongtrado!");
             }
             catch (Exception erro)
             {
                 return BadRequest(erro.Message);
             }
         }
+
     }
 }
