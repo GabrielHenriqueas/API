@@ -27,7 +27,7 @@ namespace webapi.filmes.tarde.Repositories
         {
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
-                string queryUpdateIdBody = "UPDATE Filme SET Titulo = @Titulo WHERE IdFilme = @IdFilme";
+                string queryUpdateIdBody = "UPDATE Filme SET Titulo = @Titulo, IdGenero = @IdGenero WHERE IdFilme = @IdFilme";
 
                 con.Open();
 
@@ -35,7 +35,9 @@ namespace webapi.filmes.tarde.Repositories
                 {
                     cmd.Parameters.AddWithValue("@Titulo", filme.Titulo);
 
-                    cmd.Parameters.AddWithValue("@IdGenero", filme.IdFilme);
+                    cmd.Parameters.AddWithValue("@IdFilme", filme.IdFilme);
+
+                    cmd.Parameters.AddWithValue("@IdGenero", filme.IdGenero);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -48,7 +50,7 @@ namespace webapi.filmes.tarde.Repositories
         {
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
-                string queryUpdateUrl = "UPDATE Filme SET Titulo = @Titulo WHERE IdFilme = @IdFilme";
+                string queryUpdateUrl = "UPDATE Filme SET Titulo = @Titulo, IdGenero = @IdGenero WHERE IdFilme = @IdFilme";
 
                 con.Open();
 
@@ -57,6 +59,8 @@ namespace webapi.filmes.tarde.Repositories
                     cmd.Parameters.AddWithValue("@Titulo", filme.Titulo);
 
                     cmd.Parameters.AddWithValue("@IdFilme", id);
+
+                    cmd.Parameters.AddWithValue("@IdGenero", filme.IdGenero);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -75,7 +79,7 @@ namespace webapi.filmes.tarde.Repositories
         {
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
-                string querySelectById = "SELECT IdFilme, Titulo FROM Filme WHERE IdFilme = @IdFilme";
+                string querySelectById = "SELECT Filme.IdFilme, Filme.Titulo, Genero.IdGenero, Genero.Nome FROM Filme INNER JOIN Genero on Genero.IdGenero = Filme.IdGenero";
 
                 SqlDataReader rdr;
 
@@ -92,7 +96,17 @@ namespace webapi.filmes.tarde.Repositories
                         FilmeDomain filmeBuscado = new FilmeDomain
                         {
                             IdFilme = Convert.ToInt32(rdr["IdFilme"]),
-                            Titulo = rdr["Titulo"].ToString()
+
+                            IdGenero = Convert.ToInt32(rdr["IdGenero"]),
+
+                            Titulo = rdr["Titulo"].ToString(),
+
+                            Genero = new GeneroDomain()
+                            {
+                                IdGenero = Convert.ToInt32(rdr["IdGenero"]),
+
+                                Nome = rdr["Nome"].ToString()
+                            }
                         };
 
                         return filmeBuscado;
@@ -115,12 +129,14 @@ namespace webapi.filmes.tarde.Repositories
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
                 //Declara a query que será executada
-                string queryInsert = "INSERT INTO Filme(Titulo) VALUES(@Titulo)";
+                string queryInsert = "INSERT INTO Filme(Titulo, IdGenero) VALUES(@Titulo, @IdGenero)";
 
                 //Declara o SqlCommand passando a query que será executada e a conexão com o bd
                 using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
                     cmd.Parameters.AddWithValue("@Titulo", novoFilme.Titulo);
+
+                    cmd.Parameters.AddWithValue("@IdGenero", novoFilme.IdGenero);
 
                     //Abre a conexçao com o banco de dados
                     con.Open();
@@ -197,7 +213,7 @@ namespace webapi.filmes.tarde.Repositories
                             //Atribui a propriedade IdFilme o valor da primeira coluna da tabela
                             IdFilme = Convert.ToInt32(rdr["IdFilme"]),
 
-                            IdGenero= Convert.ToInt32(rdr["IdGenero"]),
+                            IdGenero = Convert.ToInt32(rdr["IdGenero"]),
 
                             //Atribui a propriedade Nome o valor da Coluna Nome
                             Titulo = rdr["Titulo"].ToString(),
