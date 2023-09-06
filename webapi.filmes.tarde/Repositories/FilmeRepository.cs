@@ -79,13 +79,13 @@ namespace webapi.filmes.tarde.Repositories
         {
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
-                string querySelectById = "SELECT Filme.IdFilme, Filme.Titulo, Genero.IdGenero, Genero.Nome FROM Filme INNER JOIN Genero on Genero.IdGenero = Filme.IdGenero";
+                string querySelectById = "SELECT Filme.IdFilme, Filme.Titulo, Genero.IdGenero, Genero.Nome FROM Filme INNER JOIN Genero on Genero.IdGenero = Filme.IdGenero WHERE @id = IdFilme";
 
                 SqlDataReader rdr;
 
                 using (SqlCommand cmd = new SqlCommand(querySelectById, con))
                 {
-                    cmd.Parameters.AddWithValue("@IdFilme", id);
+                    cmd.Parameters.AddWithValue("@id", id);
 
                     con.Open();
 

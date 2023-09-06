@@ -88,6 +88,11 @@
             Classe que representa a entidade(tabela) Genero
             </summary>
         </member>
+        <member name="T:webapi.filmes.tarde.Domains.UsuarioDomain">
+            <summary>
+            Classe que representa a entidade(tabela) Usuário
+            </summary>
+        </member>
         <member name="M:webapi.filmes.tarde.Interfaces.IFilmeRepository.Cadastrar(webapi.filmes.tarde.Domains.FilmeDomain)">
             <summary>
             Cadastrar um novo filme
@@ -169,6 +174,14 @@
             
             </summary>
             <param name="id">Id </param>
+        </member>
+        <member name="M:webapi.filmes.tarde.Interfaces.IUsuarioRepository.Login(System.String,System.String)">
+            <summary>
+            Método que busca um usuário por email e senha
+            </summary>
+            <param name="email">email do usuário</param>
+            <param name="senha">senha do usuário</param>
+            <returns>Objeto que foi buscado</returns>
         </member>
         <member name="F:webapi.filmes.tarde.Repositories.FilmeRepository.StringConexao">
             <summary>
@@ -255,6 +268,16 @@
             Listar todos os objetos do tipo gênero
             </summary>
             <returns>Lista de objetos do tipo gênero</returns>
+        </member>
+        <member name="F:webapi.filmes.tarde.Repositories.UsuarioRepository.StringConexao">
+            <summary>
+            String de conexão com o banco de dados, que recebe os seguintes parâmetros:
+            Data Source : Nome do servidor do banco
+            Initial Catolog : Nome do banco de dados
+            Autenticação
+                -windowns : Integrated Security = True
+                -SqlServer : User Id = sa; Pwd = Senha
+            </summary>
         </member>
     </members>
 </doc>

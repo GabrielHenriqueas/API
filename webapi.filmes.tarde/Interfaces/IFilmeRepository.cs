@@ -37,7 +37,7 @@ namespace webapi.filmes.tarde.Interfaces
         /// Atualizar um filme existente passando o id pela URL da requisição
         /// </summary>
         /// <param name="id">Id do objeto a ser atualizado</param>
-        /// <param name="genero">Objeto com as novas informações</param>
+        /// <param name="filme">Objeto com as novas informações</param>
         void AtualizarIdUrl(int id, FilmeDomain filme);
 
         /// <summary>
