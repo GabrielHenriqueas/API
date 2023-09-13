@@ -12,12 +12,21 @@ namespace webapi.inlock.tarde.Repositories
 
         public void Atualizar(Guid id, Estudio estudio)
         {
-            throw new NotImplementedException();
+            Estudio estudioBuscado = ctx.Estudios.Find(id)!;
+
+            if (estudioBuscado != null)
+            {
+                estudioBuscado.Nome = estudio.Nome;
+            }
+
+            ctx.Estudios.Update(estudioBuscado!);
+
+            ctx.SaveChanges();
         }
 
         public Estudio BuscarPorId(Guid id)
         {
-            throw new NotImplementedException();
+            return ctx.Estudios.FirstOrDefault(e => e.IdEstudio == id)!;
         }
 
         public void Cadastrar(Estudio estudio)

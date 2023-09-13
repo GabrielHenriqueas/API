@@ -74,5 +74,35 @@ namespace webapi.inlock.tarde.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            try
+            {
+                _estudioRepository.BuscarPorId(id);
+
+                return StatusCode(201);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(Guid id,Estudio estudio)
+        {
+            try
+            {
+                _estudioRepository.Atualizar(id, estudio);
+
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
